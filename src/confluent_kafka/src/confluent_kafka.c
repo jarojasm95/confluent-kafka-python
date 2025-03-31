@@ -854,7 +854,7 @@ static PyObject *Uuid_str0 (Uuid *self) {
 }
 
 static long Uuid_hash (Uuid *self) {
-        
+
         return rd_kafka_Uuid_most_significant_bits(self->cUuid) ^ rd_kafka_Uuid_least_significant_bits(self->cUuid);
 }
 
@@ -876,7 +876,7 @@ static int Uuid_init (PyObject *self0, PyObject *args,
         int64_t least_significant_bits;
 
         if (!PyArg_ParseTupleAndKeywords(args, kwargs, "LL", kws,
-                                         &most_significant_bits, 
+                                         &most_significant_bits,
                                          &least_significant_bits))
                 return -1;
 
@@ -925,7 +925,7 @@ PyTypeObject UuidType = {
         PyObject_GenericGetAttr,                /* tp_getattro */
         0,                                      /* tp_setattro */
         0,                                      /* tp_as_buffer */
-        Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | 
+        Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
 	Py_TPFLAGS_HAVE_GC,                     /* tp_flags */
         "Generic Uuid. Being used in various identifiers including topic_id.\n"
         "\n"
@@ -1355,7 +1355,7 @@ rd_kafka_topic_partition_list_t *py_to_c_parts (PyObject *plist) {
 
 /**
  * @brief Convert C rd_kafka_topic_partition_result_t to Python dict(TopicPartition, KafkaException).
- * 
+ *
  * @returns The new Python dict object.
  */
 PyObject *c_topic_partition_result_to_py_dict(
@@ -1379,7 +1379,7 @@ PyObject *c_topic_partition_result_to_py_dict(
                 value = KafkaError_new_or_None(rd_kafka_error_code(c_error),
                                                rd_kafka_error_string(c_error));
                 key = c_part_to_py(c_topic_partition);
-               
+
                 PyDict_SetItem(result, key, value);
 
                 Py_DECREF(key);
@@ -1681,7 +1681,7 @@ PyObject *c_Uuid_to_py(const rd_kafka_Uuid_t *c_uuid) {
         PyObject *Uuid_type = NULL;
         PyObject *args = NULL;
         PyObject *kwargs = NULL;
-        
+
         if(!c_uuid)
                 Py_RETURN_NONE;
 
@@ -1691,7 +1691,7 @@ PyObject *c_Uuid_to_py(const rd_kafka_Uuid_t *c_uuid) {
                 goto err;
         }
 
-        
+
         kwargs = PyDict_New();
 
         cfl_PyDict_SetLong(kwargs, "most_significant_bits", rd_kafka_Uuid_most_significant_bits(c_uuid));
@@ -2536,6 +2536,7 @@ inner_err:
 
         if (h->oauth_cb)
                 rd_kafka_conf_set_oauthbearer_token_refresh_cb(conf, oauth_cb);
+                rd_kafka_conf_enable_sasl_queue(conf, 1);
 
 	rd_kafka_conf_set_opaque(conf, h);
 

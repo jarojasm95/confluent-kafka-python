@@ -877,6 +877,9 @@ static int Producer_init (PyObject *selfobj, PyObject *args, PyObject *kwargs) {
         if (self->logger)
                 rd_kafka_set_log_queue(self->rk, NULL);
 
+        if (self->oauth_cb)
+                rd_kafka_sasl_background_callbacks_enable(self->rk);
+
         return 0;
 }
 
